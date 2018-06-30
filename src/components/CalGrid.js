@@ -25,16 +25,30 @@ class CalGrid extends Component {
     super(props);
     this.state = {
       events: [],
-      submissionFormShowing: false
+      showSubmission: false,
+      entryDay: ''
     };
+    this.openSubmissionForm = this.openSubmissionForm.bind(this);
+    this.closeSubmissionForm = this.closeSubmissionForm.bind(this);
   }
 
-  toggleSubmissionForm(evt) {
+  openSubmissionForm(evt) {
+    evt.preventDefault();
+    const entryDay = evt.target.dataset.day;
+    this.setState({
+      showSubmission: true,
+      entryDay
+    });
+  }
 
+  closeSubmissionForm() {
+    this.setState({
+      showSubmission: false
+    })
   }
 
   componentDidMount() {
-    this.props.fetchEvents()
+    this.props.fetchEvents();
 
 
   }
@@ -42,6 +56,7 @@ class CalGrid extends Component {
   render() {
     const events = this.props.events;
     const dayNums = createDayNums(28, 30, 31, 1);
+    const entryDay = this.state.entryDay;
 
     return (
       <section>
@@ -56,10 +71,11 @@ class CalGrid extends Component {
             day={num}
             events = {this.props.events.filter(event => event.day === num)}
             key={num}
+            openSubmit={this.openSubmissionForm}
           /> ))}
 
       </ul>
-      <Submission />
+      {this.state.showSubmission && <Submission closeSubmit={this.closeSubmissionForm} entryDay={entryDay} />}
       </section>
     )
 

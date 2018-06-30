@@ -32,13 +32,6 @@ module.exports = db.define('event', {
     type: Sequelize.VIRTUAL,
     get() {
       return convert24To12H(this.getDataValue('startTime24'));
-      // let time24Hour = parseInt(this.getDataValue('startTime').slice(0, 2));
-      // let timeMinutes = this.getDataValue('startTime').slice(-2);
-      // let time12Hour = time24Hour % 12;
-      // let amOrPm = time24Hour < 12 ? 'am' : 'pm';
-      // if (!time12Hour) time12Hour = 12;
-      // let full12HourTime = '' + time12Hour + ':' + timeMinutes + amOrPm;
-      // return full12HourTime;
     }
   },
   endTime: {
@@ -48,11 +41,8 @@ module.exports = db.define('event', {
       return convert24To12H(this.getDataValue('endTime'));
     }
   },
-  name: {
-    type: Sequelize.STRING
-  },
   description: {
-    type: Sequelize.TEXT
+    type: Sequelize.STRING
   }
 });
 

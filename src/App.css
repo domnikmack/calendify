@@ -38,10 +38,15 @@ html {
 .weekday {
   color: #0D0F13;
   padding: 0 0 0 .3rem;
+  margin: 0;
 }
 
 .day {
   background-color: rgba(255,255,255, 0.8);
+}
+
+.day-number {
+  margin: 0;
 }
 
 .event-month-view {
@@ -49,11 +54,8 @@ html {
   font-weight: normal;
   font-size: .9em;
   list-style: none;
+  padding: 0;
 
-}
-
-.entry-time {
-  font-weight: bold
 }
 
 .submission-form {
@@ -65,6 +67,5 @@ html {
   left: 30%;
   box-shadow: 10px 10px 10px 5px rgba(0, 0, 0, .3);
   padding: 10px;
-
-
 }
+

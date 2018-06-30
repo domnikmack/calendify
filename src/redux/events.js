@@ -19,20 +19,18 @@ export const getEvent = event => {
 }
 
 export const fetchEvents = () => {
-  console.log('HIT EVENTS THUNK')
   return dispatch => {
     return axios.get('/api/events')
       .then(res => res.data)
-      // .then(events => console.log(events))
       .then(events => dispatch(getEvents(events)))
   }
 }
 
-export const postEvent = (event) => {
+export const postEvent = (calEvent) => {
   return dispatch => {
-    return axios.post('./api/events', event)
+    return axios.post('/api/events', calEvent)
     .then(res => res.data)
-    .then(event => dispatch(getEvent(event)))
+    .then(newEvt => dispatch(getEvent(newEvt)))
   }
 }
 

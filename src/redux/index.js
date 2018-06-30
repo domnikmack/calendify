@@ -9,8 +9,10 @@ const reducer = combineReducers({
   events
 });
 
-const store = createStore(reducer,
-  composeWithDevTools(applyMiddleware(thunkMiddleware, loggingMiddleware)));
+const store = createStore(
+  reducer,
+  composeWithDevTools(applyMiddleware(thunkMiddleware, loggingMiddleware))
+);
 
 export default store;
 
