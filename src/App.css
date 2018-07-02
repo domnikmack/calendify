@@ -58,6 +58,47 @@ html {
 
 }
 
+.single-event {
+  margin: .1em 0;
+  padding: .1em .1em ;
+  border-radius: .2em;
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+.single-event:hover {
+  background-color: #21252F;
+}
+
+.event-icons {
+  float: right;
+  font-size: .8em;
+  visibility: hidden;
+  transition: visibilty 0.3s ease;
+}
+
+.event-icons .icon {
+  margin: 0;
+  padding: .3em;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 1.2em;
+  height: 1.2em;
+  display: inline-block;
+}
+
+.event-icons .icon:hover {
+  /* margin: 0 .2em; */
+  cursor: pointer;
+  background-color: grey;
+
+}
+
+.single-event:hover svg {
+  visibility: visible;
+}
+
+
 .submission-form {
   background-color: rgba(255, 255, 255, .9);
   height: 30vh;

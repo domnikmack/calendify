@@ -43,7 +43,7 @@ class Submission extends Component {
             type="text"
             name="description"
             value={description}
-            placeHolder="New Entry"
+            placeholder="New Entry"
             onChange={this.handleChange}
           />
           <label>
