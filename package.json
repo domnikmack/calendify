@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-server": "nodemon server",
     "build": "webpack --mode development",
-    "start:dev": "webpack -w & nodemon CalendarBackEnd -e js,html --watch"
+    "start:dev": "webpack -w & nodemon CalendarBackEnd -e js,html --watch",
+    "deploy": "script/deploy"
   },
   "author": "Domnik Mack",
   "license": "ISC",
