@@ -4,9 +4,11 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import events from './events';
+import currentEvent from './current-event';
 
 const reducer = combineReducers({
-  events
+  events,
+  currentEvent
 });
 
 const store = createStore(
@@ -17,3 +19,4 @@ const store = createStore(
 export default store;
 
 export * from './events';
+export * from './current-event';

@@ -18,6 +18,7 @@ module.exports = {
       }
     ]
   },
+  devtool: 'cheap-module-source-map',
   resolve: { extensions: ['*', '.js', '.jsx'] },
   output: {
     path: path.resolve(__dirname, 'public/'),

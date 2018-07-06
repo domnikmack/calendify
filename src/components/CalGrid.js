@@ -1,32 +1,30 @@
 import React, {Component} from 'react';
-import Day from './day';
+import Day from './Day';
 import Submission from './Submission';
 import { connect } from 'react-redux';
-import { fetchEvents } from '../redux';
+import { fetchEvents, setCurrentEvent } from '../redux';
 
 const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-const createDayNums = (start, end, lastDayPrev, firstSunNext) => {
-  let nums = [];
-  for (let prev = start; prev <= lastDayPrev; prev++) {
-    nums.push(prev)
+const createGridDates = (start, end, lastDayPrev, firstSunNext) => {
+  let dates = [];
+  for (let i = start; i <= lastDayPrev; i++) {
+    dates.push([5, i]);
   }
-  for (let curr = 1; curr <= end; curr++) {
-    nums.push(curr);
+  for (let j = 1; j <= end; j++) {
+    dates.push([6, j]);
   }
-  for (let next = 1; next <= firstSunNext; next++) {
-    nums.push(next);
+  for (let k = 1; k <= firstSunNext; k++) {
+    dates.push([7, k]);
   }
-  return nums;
+  return dates;
 }
 
 class CalGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [],
       showSubmission: false,
-      entryDay: ''
     };
     this.openSubmissionForm = this.openSubmissionForm.bind(this);
     this.closeSubmissionForm = this.closeSubmissionForm.bind(this);
@@ -34,10 +32,13 @@ class CalGrid extends Component {
 
   openSubmissionForm(evt) {
     evt.preventDefault();
-    const entryDay = evt.target.dataset.day;
+    const month = +evt.target.dataset.month;
+    const day = +evt.target.dataset.day;
+    let startTime24 = '09:00';
+    let endTime24 = '10:00';
+    this.props.setCurrentEvent({ month, day, startTime24, endTime24 })
     this.setState({
       showSubmission: true,
-      entryDay
     });
   }
 
@@ -49,14 +50,10 @@ class CalGrid extends Component {
 
   componentDidMount() {
     this.props.fetchEvents();
-
-
   }
 
   render() {
-    const events = this.props.events;
-    const dayNums = createDayNums(28, 30, 31, 1);
-    const entryDay = this.state.entryDay;
+    const gridDates = createGridDates(28, 30, 31, 1);
 
     return (
       <section>
@@ -66,16 +63,19 @@ class CalGrid extends Component {
           className="weekday"
           key={day}>{day}
           </h2>))}
-        {dayNums.map(num =>
+        {gridDates.map(date =>
           (<Day
-            day={num}
-            events = {this.props.events.filter(event => event.day === num)}
-            key={num}
+            day={date}
+            events = {this.props.events.filter(event => {
+              return event.day === date[1] && event.month === date[0];
+            })
+            }
+            key={date}
             openSubmit={this.openSubmissionForm}
           /> ))}
 
       </ul>
-      {this.state.showSubmission && <Submission closeSubmit={this.closeSubmissionForm} entryDay={entryDay} />}
+      {this.state.showSubmission && <Submission closeSubmit={this.closeSubmissionForm} />}
       </section>
     )
 
@@ -84,12 +84,14 @@ class CalGrid extends Component {
 
 const mapState = state => {
   return {
-    events: state.events
+    events: state.events,
+    currentEvent: state.currentEvent
   }
 };
 
 const mapDispatch = dispatch => ({
-  fetchEvents() { dispatch(fetchEvents())}
+  fetchEvents() { dispatch(fetchEvents())},
+  setCurrentEvent(event) { dispatch(setCurrentEvent(event))}
 });
 
 export default connect(mapState, mapDispatch)(CalGrid);

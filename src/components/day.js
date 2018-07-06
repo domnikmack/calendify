@@ -1,52 +1,51 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { destroyEvent, setCurrentEvent } from '../redux';
 
-export default class Day extends Component {
+class Day extends Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleEdite = this.handleEdit.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
-  truncateDescription (description) {
-      if (description.length > 24) {
-        return description.slice(0, 24) + '...';
-      }
-      return description;
+  truncateDescription(description) {
+    if (description.length > 24) {
+      return description.slice(0, 24) + '...';
     }
-
-  sortEvents (events) {
-      return events.sort((a, b) => {
-        return this.timeInt(a.startTime24) - this.timeInt(b.startTime24);
-      });
-    }
-
-  timeInt (time) {
-      return parseInt(time.slice(0, 2) + time.slice(-2));
+    return description;
   }
 
-  // handleClick(evt) {
-  //   // console.log('EVT', evt)
-  //   evt.stopProgagation();
-  //   evt.nativeEvent.stopImmediatePropagation();
-  //   console.log('CLICKED');
-  // }
-
-  handleDelete(evt) {
-    evt.stopProgagation();
-    // evt.nativeEvent.stopImmediatePropagation();
-
-    console.log('DELETE');
+  sortEvents(events) {
+    return events.sort((a, b) => {
+      return this.timeInt(a.startTime24) - this.timeInt(b.startTime24);
+    });
   }
 
-  handleEdit(evt) {
-    evt.stopProgagation();
-    // evt.nativeEvent.stopImmediatePropagation();
-    CONSOLE.LOG('EDIT');
+  timeInt(time) {
+    return parseInt(time.slice(0, 2) + time.slice(-2));
   }
 
+  handleClick(evt) {
+    evt.stopPropagation();
+    evt.nativeEvent.stopImmediatePropagation();
+  }
+
+  handleDelete(evt, id) {
+      evt.stopPropagation();
+      evt.nativeEvent.stopImmediatePropagation();
+      this.props.destroyEvent(id);
+  }
+
+  handleEdit(evt, currentEvent) {
+    evt.stopPropagation();
+    evt.nativeEvent.stopImmediatePropagation();
+    this.props.openSubmit(evt);
+    this.props.setEvent(currentEvent);
+  }
 
   render() {
     const { day, openSubmit } = this.props;
@@ -66,19 +65,29 @@ export default class Day extends Component {
           boxShadow: '5px 5px 10px 1px rgba(0, 0, 0, .3)',
           cursor: 'pointer'
         }}
-        data-day={day}
+        data-month={day[0]}
+        data-day={day[1]}
         onClick={openSubmit}
       >
-        <p className="day-number">{day}</p>
+        <p className="day-number">{day[1]}</p>
         <ul className="event-month-view">
           {events.map(e => (
-            <li className="single-event" >
+            <li className="single-event" key={e.id} onClick={this.handleClick}>
               <div className="single-event-header">
-
                 {e.startTime} - {e.endTime}
                 <div className="event-icons">
-                  <FontAwesomeIcon className="icon" icon={faPencilAlt} onClick={() => this.handleDelete(evt)} />
-                  <FontAwesomeIcon className="icon" icon={faTrash} onClick={() => this.handleEdit(evt)} />
+                  <FontAwesomeIcon
+                    title="edit"
+                    className="icon"
+                    icon={faPencilAlt}
+                    onClick={evt => this.handleEdit(evt, e)}
+                  />
+                  <FontAwesomeIcon
+                    title="delete"
+                    className="icon"
+                    icon={faTrash}
+                    onClick={evt => this.handleDelete(evt, e.id)}
+                  />
                 </div>
               </div>
 
@@ -86,7 +95,25 @@ export default class Day extends Component {
             </li>
           ))}
         </ul>
-        </div>
-      );
-    }
+      </div>
+    );
+  }
 }
+
+const mapState = null;
+
+const mapDispatch = function(dispatch) {
+  return {
+    destroyEvent(event) {
+      dispatch(destroyEvent(event))
+    },
+    setEvent(eventId) {
+      dispatch(setCurrentEvent(eventId))
+    }
+  };
+};
+
+export default connect(
+  mapState,
+  mapDispatch
+)(Day);

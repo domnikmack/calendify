@@ -34,11 +34,14 @@ module.exports = db.define('event', {
       return convert24To12H(this.getDataValue('startTime24'));
     }
   },
-  endTime: {
+  endTime24: {
     type: Sequelize.TIME,
-    allowNull: false,
+    allowNull: false
+  },
+  endTime: {
+    type: Sequelize.VIRTUAL,
     get() {
-      return convert24To12H(this.getDataValue('endTime'));
+      return convert24To12H(this.getDataValue('endTime24'));
     }
   },
   description: {
