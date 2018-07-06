@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { destroyEvent, setCurrentEvent } from '../redux';
 
@@ -53,23 +52,12 @@ class Day extends Component {
 
     return (
       <div
-        style={{
-          width: 'auto',
-          height: '10rem',
-          margin: '0',
-          padding: '.3rem',
-          fontSize: '1rem',
-          fontWeight: 'bold',
-          backgroundColor: 'rgba(255,255,255, 0.4)',
-          color: 'white',
-          boxShadow: '5px 5px 10px 1px rgba(0, 0, 0, .3)',
-          cursor: 'pointer'
-        }}
+        className = "day-box"
         data-month={day[0]}
         data-day={day[1]}
         onClick={openSubmit}
       >
-        <p className="day-number">{day[1]}</p>
+        <p className="day-number" onClick={this.handleClick}>{day[1]}</p>
         <ul className="event-month-view">
           {events.map(e => (
             <li className="single-event" key={e.id} onClick={this.handleClick}>

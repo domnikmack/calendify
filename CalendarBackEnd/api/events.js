@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { Event } = require('../db/models');
+const { Event, User } = require('../db/models');
 
 router.post('/', (req, res, next) => {
-  Event.create(req.body)
+  User.findOrCreate({where: { name: 'Spot', email: 'spot@spotify.com' }})
+  .then(([user, conf]) => {
+    let event = Event.build(req.body);
+    event.setUser(user, {save: false})
+    return event.save();
+  })
   .then(event => res.json(event))
   .catch(next);
 });

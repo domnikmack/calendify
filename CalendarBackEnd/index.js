@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const db = require('./db');
 
-db.sync({force: false}).then(() => console.log('DB synced!'));
+db.sync({force: true}).then(() => console.log('DB synced!'));
 
 app.use(morgan('dev'));
 

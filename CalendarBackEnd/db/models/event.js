@@ -45,7 +45,8 @@ module.exports = db.define('event', {
     }
   },
   description: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false
   }
 });
 

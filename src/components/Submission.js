@@ -21,6 +21,7 @@ class Submission extends Component {
     currentEvent.date = getDate(currentEvent.month, currentEvent.day);
 
     this.props.closeSubmit();
+    console.log('CURRENT EVENT IN HANDLE SUBMIT: ', currentEvent)
     this.props.postEvent(currentEvent);
     this.props.setCurrentEvent({});
   }
@@ -65,15 +66,20 @@ class Submission extends Component {
           }
         >
           <input
+            className = "description-input"
             type="text"
             name="description"
             value={description}
             placeholder="New Event"
+            default="New Event"
             onChange={this.handleChange}
+            autoFocus
           />
+          <div className = "time-input">
           <label>
-            Start Time:
+            Start:
             <input
+              className = "time-field"
               type="time"
               value={startTime24}
               default="9:00:00"
@@ -82,8 +88,9 @@ class Submission extends Component {
             />
           </label>
           <label>
-            End Time:
+            End:
             <input
+              className = "time-field"
               type="time"
               value={endTime24}
               default="10:00:00"
@@ -91,8 +98,11 @@ class Submission extends Component {
               onChange={this.handleChange}
             />
           </label>
+          </div>
+          <div className="buttons" >
           <input type="submit" name={buttonText} value={buttonText} />
           <button onClick={this.handleCancel}>Cancel</button>
+          </div>
         </form>
       </div>
     );

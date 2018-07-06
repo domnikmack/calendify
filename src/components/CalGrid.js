@@ -36,7 +36,8 @@ class CalGrid extends Component {
     const day = +evt.target.dataset.day;
     let startTime24 = '09:00';
     let endTime24 = '10:00';
-    this.props.setCurrentEvent({ month, day, startTime24, endTime24 })
+    let description = 'New Event';
+    this.props.setCurrentEvent({ month, day, startTime24, endTime24, description })
     this.setState({
       showSubmission: true,
     });
